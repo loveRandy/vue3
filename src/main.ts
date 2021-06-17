@@ -3,11 +3,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import { setupAntd } from '@/antd'
+import IconFont from '@/components/icon_font'
+import './permission'
 
-import { createFromIconfontCN } from '@ant-design/icons-vue'
-const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js'
-})
 
 const app = createApp(App)
 const win: any = window //

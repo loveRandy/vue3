@@ -8,11 +8,7 @@
     <!-- 右侧栏 -->
     <a-layout>
       <!-- 头部 -->
-      <a-layout-header style="background: #fff; padding: 0">
-        <div class="log_out" @click="logout">
-          <icon-font type="icon-tuichu" />
-        </div>
-      </a-layout-header>
+      <a-layout-header style="background: #fff; padding: 0" />
 
       <!-- 内容区 -->
       <a-layout-content style="margin: 0 16px">
@@ -35,29 +31,21 @@
 import { defineComponent, ref } from 'vue'
 import Tabs from '@/components/tabs/index.vue'
 import Menu from './menu/index.vue'
-// import { useRouter } from 'vue-router'
 export default defineComponent({
   components: {
     Tabs,
     Menu,
   },
   setup() {
-    // const router = useRouter()
-    const logout = () => {
-      localStorage.removeItem('token')
-      // router.push({ path: '/login' })
-			window.location.reload()
-    }
     return {
       collapsed: ref<boolean>(false),
-      logout,
     }
   },
 })
 </script>
 <style lang="less">
 .layout-wrapper {
-  min-height: 100vh !important;
+  min-height: 100vh;
   .logo {
     height: 32px;
     margin: 16px;
@@ -69,19 +57,6 @@ export default defineComponent({
   }
   [data-theme='dark'] .site-layout .site-layout-background {
     background: #141414;
-  }
-  .log_out {
-    float: right;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    margin-top: 15px;
-    svg {
-      font-size: 30px;
-      margin-right: 20px;
-      cursor: pointer;
-      fill: #1890ff;
-    }
   }
 }
 </style>

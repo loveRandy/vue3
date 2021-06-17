@@ -1,5 +1,9 @@
-
-import { ADDROUTINGPATHDATA } from './mutation-types'
+import {
+  ADDROUTINGPATHDATA,
+  CHANGEACTIVEKEYS,
+  CHANGEROUTE
+} from './mutation-types'
+import { setSingleItem } from '@/utils/recursion-router'
 export default {
   // 路由路径
   [ADDROUTINGPATHDATA] (state: any, paramsData: any) {
@@ -14,5 +18,14 @@ export default {
     if (flag) {
       state.routingPathData.push(paramsData)
     }
+  },
+  [CHANGEACTIVEKEYS] (state: any, paramsData: any) {
+    state.selectedKeys = paramsData
+  },
+  [CHANGEROUTE] (state: any, paramsData: any) {
+    const allRouterList = paramsData.filter(
+      (item: { hidden: any }) => !item.hidden
+    )
+    state.menuList = setSingleItem(allRouterList, [])
   }
 }

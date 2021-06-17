@@ -1,43 +1,21 @@
-const user = {
-  namespaced: true,
+export default {
   state: {
-    token: localStorage.getItem('token'),
-    avatar: '',
-    username: '',
-    roles: [],
     menus: []
   },
-
   mutations: {
-    SET_TOKEN: (state, token) => {
-      state.token = token
+    SET_MENUS: (state: any, menus: any) => {
+      state.menus = menus
     }
   },
-
+  getters: {},
   actions: {
-    /* login */
-    LoginResult ({ commit }, userInfo) {
-      return new Promise((resolve, reject) => {
-        Login(userInfo)
-          .then(response => {
-            const { code, token } = response.data
-            if (code == 200) {
-              localStorage.setItem('token', token)
-              commit('SET_TOKEN', token)
-            }
-            resolve(response.data)
-          })
-          .catch(error => {
-            reject(error)
-          })
+    GetInfo ({ commit }: any) {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          commit('SET_MENUS', [123])
+          resolve([123])
+        }, 3000)
       })
-    },
-
-    /* 用户登出 */
-    LogoutResult ({ commit }) {
-      localStorage.removeItem('token')
     }
   }
 }
-
-export default user

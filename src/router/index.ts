@@ -1,67 +1,178 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import Eorror403 from '@/views/error/403.vue'
-import Eorror404 from '@/views/error/404.vue'
-import Login from '@/views/login/index.vue'
-
-const routes: Array<RouteRecordRaw> = [
+import { createRouter, createWebHashHistory } from 'vue-router'
+import Layout from '@/views/layout/index.vue'
+export const constantRoutes = [
   {
     path: '/',
-    name: 'layout',
+    component: Layout,
     redirect: '/index',
+    name: 'Index',
     meta: {
-      keepAlive: false,
-      title: '我是layout'
+      title: '首页',
+      icon: 'icon-comments',
+      single: true
     },
-    component: () =>
-      import(/* webpackChunkName: "layout" */ '@/views/layout/index.vue'),
     children: [
       {
         path: '/index',
-        name: 'index',
+        name: 'Index',
+        component: () => import('@/views/index/index.vue'),
         meta: {
-          keepAlive: false,
-          title: '首页'
-        },
-        component: () =>
-          import(/* webpackChunkName: "layout" */ '@/views/index/index.vue')
-      },
-      {
-        path: '/table',
-        name: 'table',
-        meta: {
-          keepAlive: false,
-          title: '表格'
-        },
-        component: () =>
-          import(/* webpackChunkName: "layout" */ '@/views/table/index.vue')
-      },
-    ],
+          title: '首页',
+          icon: 'icon-youxiang'
+        }
+      }
+    ]
   },
   {
-    path: '/about',
-    name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '@/views/About.vue')
+    path: '/demo',
+    component: Layout,
+    name: 'Demo',
+    redirect: '/demo/table',
+    meta: {
+      title: '组件',
+      icon: 'icon-product'
+    },
+    children: [
+      {
+        path: '/demo/table',
+        name: 'Table',
+        component: () => import('@/views/demo/table/index.vue'),
+        meta: {
+          title: '表格',
+          icon: 'icon-packing-labeling'
+        }
+      },
+      {
+        path: '/demo/icon',
+        name: 'Icon',
+        component: () => import('@/views/demo/icon/index.vue'),
+        meta: {
+          title: '图标',
+          icon: 'icon-trade-assurance'
+        }
+      }
+    ]
   },
+
   {
     path: '/login',
     name: 'login',
-    component: Login
+    component: () => import('@/views/login/Login.vue'),
+    hidden: true
   },
   {
-    path: '/403',
-    name: '403',
-    component: Eorror403
-  },
-  {
-    path: '/404',
+    path: '/:pathMatch(.*)*',
     name: '404',
-    component: Eorror404
+    component: () => import('@/views/error/404.vue'),
+    hidden: true
+  }
+]
+
+export const asyncRoutes = [
+  {
+    path: '/error',
+    name: 'Error',
+    component: Layout,
+    redirect: '/error/403',
+    meta: {
+      title: '错误页',
+      icon: 'icon-logistic-logo'
+    },
+    children: [
+      {
+        path: '/error/403',
+        name: 'Error403',
+        component: () => import('@/views/error/403.vue'),
+        meta: {
+          title: '403',
+          icon: 'icon-fencengpeizhi'
+        }
+      },
+      {
+        path: '/error/404',
+        name: 'Error404',
+        component: () => import('@/views/error/404.vue'),
+        meta: {
+          title: '404',
+          icon: 'icon-tongguanshuju'
+        }
+      }
+    ]
+  },
+  {
+    path: '/echart',
+    component: Layout,
+    name: 'echart',
+    redirect: '/echart/bar',
+    meta: {
+      title: '动态路由测试',
+      icon: 'icon-searchcart'
+    },
+    children: [
+      {
+        path: '/echart/bar',
+        name: 'Bar',
+        component: () => import('@/views/echart/bar/index.vue'),
+        meta: {
+          title: '路由测试1',
+          icon: 'icon-raw'
+        }
+      },
+      {
+        path: '/echart/line',
+        name: 'Line',
+        component: () => import('@/views/echart/line/index.vue'),
+        meta: {
+          title: '路由测试2',
+          icon: 'icon-share'
+        }
+      },
+      {
+        path: '/echart/pie',
+        name: 'Pie',
+        component: () => import('@/views/echart/pie/index.vue'),
+        meta: {
+          title: '路由测试3',
+          icon: 'icon-zhanghucaozuo'
+        }
+      }
+    ]
+  },
+  {
+    path: '/system',
+    name: 'system',
+    component: Layout,
+    redirect: '/system/account/index.vue',
+    meta: {
+      title: 'system',
+      icon: 'icon-Foreigncurrency'
+    },
+    children: [
+      {
+        path: '/system/account',
+        name: 'account',
+        component: () => import('@/views/system/account/index.vue'),
+        meta: {
+          title: 'account',
+          icon: 'icon-Foreigncurrency'
+        }
+      },
+      {
+        path: '/system/group',
+        name: 'group',
+        component: () => import('@/views/system/group/index.vue'),
+        meta: {
+          title: 'group',
+          icon: 'icon-guanliyuan'
+        }
+      }
+    ]
   }
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(process.env.BASE_URL),
-  routes
+  history: createWebHashHistory(),
+  routes: constantRoutes
 })
 
 export default router
