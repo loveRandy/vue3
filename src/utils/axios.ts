@@ -1,34 +1,67 @@
-import axios from 'axios'
-import baseURL from '@/config/baseURL'
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { getLocal } from '@/utils'
-// import store from '../store'
 import { message } from 'ant-design-vue'
 
+const baseURL = process.env.NODE_ENV === 'production' ? '/' : '/api'
 //创建axios实例
 const service = axios.create({
   baseURL: baseURL, // api的base_url
   timeout: 200000, // 请求超时时间
-  withCredentials: true // 选项表明了是否是跨域请求
+  withCredentials: true, // 选项表明了是否是跨域请求
+  validateStatus (status: number) {
+    switch (status) {
+      case 400:
+        message.error('请求出错')
+        break
+      case 401:
+        message.warning({
+          message: '授权失败，请重新登录'
+        })
+        break
+        // store.commit('LOGIN_OUT')
+        // setTimeout(() => {
+        //   window.location.reload()
+        // }, 1000)
+        // return
+      case 403:
+        message.warning({
+          message: '拒绝访问'
+        })
+        break
+      case 404:
+        message.warning({
+          message: '请求错误,未找到该资源'
+        })
+        break
+      case 500:
+        message.warning({
+          message: '服务端错误'
+        })
+        break
+    }
+    return status >= 200 && status < 300
+  }
 })
 
 //请求拦截
 service.interceptors.request.use(
-  config => {
+  (config: AxiosRequestConfig) => {
     // 请求头添加token
-    if (getLocal('authed')) {
-      config.headers.Authorization = `Bearer ${getLocal('authed')}`
+    const token = getLocal('token')
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
     }
     const flag =
       (config.data && config.data.loading !== false) ||
       (config.params && config.params.loading !== false)
     if (flag) {
-      let loading:any
+      let loading: any = undefined
       loading = document.getElementById('ajaxLoading')
       loading.style.display = 'block'
     }
     return config
   },
-  err => {
+  (err: any) => {
     console.log('请求失败')
     return Promise.reject(err)
   }
@@ -36,12 +69,12 @@ service.interceptors.request.use(
 
 //响应拦截
 service.interceptors.response.use(
-  response => {
+  (response: AxiosResponse) => {
     const res = response.data
-    const ele:any = document.getElementById('ajaxLoading')
+    const ele: any = document.getElementById('ajaxLoading')
     ele.style.display = 'none'
     switch (res.code) {
-      case 200:
+      case 1:
         return res
       case 401:
         message.error(res.message)
@@ -51,8 +84,8 @@ service.interceptors.response.use(
         return Promise.reject('error')
     }
   },
-  error => {
-    const ele:any = document.getElementById('ajaxLoading')
+  (error: { message: any }) => {
+    const ele: any = document.getElementById('ajaxLoading')
     ele.style.display = 'none'
     message.error(error.message)
     return Promise.reject(error)

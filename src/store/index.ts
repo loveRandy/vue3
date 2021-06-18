@@ -8,7 +8,7 @@ import actions from '@/store/actions'
 export default createStore({
   state: {
     taskList: [],
-    selectedKeys: ['Index'],
+    selectedKeys: [],
     routingPathData: [],
     menuList:[
     ] 

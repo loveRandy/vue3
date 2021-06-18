@@ -5,6 +5,7 @@ import store from './store'
 import { setupAntd } from '@/antd'
 import IconFont from '@/components/icon_font'
 import './permission'
+import '@/styles/index.less'
 
 
 const app = createApp(App)

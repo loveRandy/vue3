@@ -1,20 +1,22 @@
 import { CHANGEROUTE } from './mutation-types'
 import { asyncRoutes, constantRoutes } from '@/router'
-import { recursionRouter } from '@/utils/recursion-router'
+import { recursionRouter ,setSingleItem} from '@/utils/recursion-router'
+import { getRoleList } from '@/api'
 export default {
-  // 存储路由路径
-  // addRoutingPathData ({ commit }: any, params: any) {
-  //   commit(ADDROUTINGPATHDATA, { params })
-  // },
-
   // 改变路由
-  changeAsyncRoute ({ commit }: any) {
-    return new Promise(resolve => {
-      const userRouter: any[] = ['Error','Error403','Error404','echart', 'Bar', 'Line']
+  async changeAsyncRoute ({ commit }: any) {
+    const res = await getRoleList()
+    if (res.code === 1) {
+      const userRouter: any[] = res.data.data
       const data = recursionRouter(userRouter, asyncRoutes)
       const menu = [...constantRoutes, ...data]
-      commit(CHANGEROUTE, menu)
-      resolve(data)
-    })
+
+      const allRouterList = menu.filter(
+        (item: { hidden: any }) => !item.hidden
+      )
+      const currentMenu = setSingleItem(allRouterList, [])
+      commit(CHANGEROUTE, currentMenu)
+      return data
+    }
   }
 }

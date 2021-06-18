@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-menu
-			class="a-menu"
+      class="a-menu"
       :selected-keys="selectedKeys"
       v-model:openKeys="openKeys"
       mode="inline"
@@ -66,12 +66,12 @@ export default defineComponent({
 </script>
 
 <style lang="less" >
-.a-menu{
-	.anticon{
-		vertical-align: sub;
-		svg{
-			font-size:20px;
-		}
-	}
+.a-menu {
+  .anticon {
+    vertical-align: sub;
+    svg {
+      font-size: 20px;
+    }
+  }
 }
 </style>

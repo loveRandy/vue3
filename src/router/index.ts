@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Layout from '@/views/layout/index.vue'
+import EmptyLayout from '@/views/empty_layout/index.vue'
 export const constantRoutes = [
   {
     path: '/',
@@ -139,35 +140,134 @@ export const asyncRoutes = [
     ]
   },
   {
-    path: '/system',
-    name: 'system',
+    path: '/product',
     component: Layout,
-    redirect: '/system/account/index.vue',
+    name: 'product-manage',
+    redirect: '/product/list',
     meta: {
-      title: 'system',
-      icon: 'icon-Foreigncurrency'
+      title: '产品管理',
+      icon: 'icon-searchcart'
     },
     children: [
       {
-        path: '/system/account',
-        name: 'account',
-        component: () => import('@/views/system/account/index.vue'),
+        path: '/product/list',
+        name: 'product-list',
+        component: () => import('@/views/product/list/index.vue'),
         meta: {
-          title: 'account',
-          icon: 'icon-Foreigncurrency'
+          title: '产品列表',
+          icon: 'icon-raw'
         }
       },
       {
-        path: '/system/group',
-        name: 'group',
-        component: () => import('@/views/system/group/index.vue'),
+        path: '/product/category',
+        name: 'review-manage',
+        component: () => import('@/views/product/category/index.vue'),
         meta: {
-          title: 'group',
-          icon: 'icon-guanliyuan'
+          title: '产品分类',
+          icon: 'icon-share'
         }
       }
     ]
-  }
+  },
+  {
+    path: '/order',
+    component: Layout,
+    name: 'order-manage',
+    redirect: '/order/list',
+    meta: {
+      title: '订单管理',
+      icon: 'icon-cart-Empty'
+    },
+    children: [
+      {
+        path: '/order/list',
+        name: 'order-list',
+        component: () => import('@/views/order/list/index.vue'),
+        meta: {
+          title: '订单列表',
+          icon: 'icon-Exportservices'
+        }
+      },
+      {
+        path: '/order/returnGoods',
+        name: 'return-goods',
+        component: () => import('@/views/order/return_goods/index.vue'),
+        meta: {
+          title: '退货管理',
+          icon: 'icon-column'
+        }
+      },
+      {
+        path: '/order/product',
+        component: EmptyLayout,
+        name: 'goods',
+        redirect: '/order/good/list',
+        meta: {
+          title: '货物管理',
+          icon: 'icon-searchcart'
+        },
+        children: [
+          {
+            path: '/order/good/list',
+            name: 'goods-list',
+            component: () => import('@/views/order/good/list/index.vue'),
+            meta: {
+              title: '货物列表',
+              icon: 'icon-apparel'
+            }
+          },
+          {
+            path: '/order/good/check',
+            name: 'goods-classify',
+            component: () => import('@/views/order/good/check/index.vue'),
+            meta: {
+              title: '退货管理',
+              icon: 'icon-add-account'
+            }
+          },
+        ]
+      },
+    ]
+  },
+  {
+    path: '/permission',
+    component: Layout,
+    name: 'permission',
+    redirect: '/permission/user',
+    meta: {
+      title: '产品管理',
+      icon: 'icon-cecurity-protection'
+    },
+    children: [
+      {
+        path: '/permission/user',
+        name: 'user-manage',
+        component: () => import('@/views/permission/user_manage/index.vue'),
+        meta: {
+          title: '用户管理',
+          icon: 'icon-confirm'
+        }
+      },
+      {
+        path: '/permission/role',
+        name: 'role-manage',
+        component: () => import('@/views/permission/role_manage/index.vue'),
+        meta: {
+          title: '角色管理',
+          icon: 'icon-Customermanagement'
+        }
+      },
+      {
+        path: '/permission/menu',
+        name: 'menu-manage',
+        component: () => import('@/views/permission/menu_manage/index.vue'),
+        meta: {
+          title: '菜单管理',
+          icon: 'icon-earth'
+        }
+      }
+    ]
+  },
 ]
 
 const router = createRouter({

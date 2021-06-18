@@ -14,7 +14,7 @@
         </a-menu-item>
       </template>
       <template v-else>
-        <sub-menu :menu-info="item" :key="item.name" />
+        <sub-menu @propsClick="goRoute" :menu-info="item" :key="item.name" />
       </template>
     </template>
   </a-sub-menu>

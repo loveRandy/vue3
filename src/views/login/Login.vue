@@ -46,6 +46,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import { defineComponent, reactive, toRefs } from 'vue'
 import { message } from 'ant-design-vue'
 import {useRouter} from 'vue-router'
+import { doLogin } from '@/api'
 export default defineComponent({
   name: 'Login',
   components: {
@@ -60,17 +61,21 @@ export default defineComponent({
         password: '',
       },
     })
-		const router = useRouter()
+    const router = useRouter()
 
     const handleSubmit = async () => {
-			
       const { username, password } = state.form
       if (username.trim() == '' || password.trim() == '') {
         return message.warning('用户名和密码不能为空')
       }
-			localStorage.setItem('token','123456')
-			router.push({path:'/'})
-
+      const res = await doLogin({
+        username,
+        password,
+      })
+      if (res.code === 1) {
+        localStorage.setItem('token', res.data.token)
+        router.push({ path: '/' })
+      }
     }
 
     /* 返回 */

@@ -32,16 +32,35 @@ export default defineComponent({
     //路由改变时把路由存进redux中并且设置选中的a-menu-item
     const routeChange = () => {
       const { fullPath, meta, name } = router.currentRoute.value
-      if (name !== '404') {
+      const whiteList = ['404', '403', '500', 'login']
+      if (whiteList.indexOf(name) === -1) {
         let data = {
           path: fullPath,
           keepAlive: meta.keepAlive,
           title: meta.title,
         }
-        store.commit(ADDROUTINGPATHDATA, data)
+        //获取新的tabs列表
+        const list = getNewList(data)
+        store.commit(ADDROUTINGPATHDATA, list)
         store.commit(CHANGEACTIVEKEYS, [name])
         activeKey.value = fullPath
       }
+    }
+
+    const getNewList = (paramsData) => {
+        // 判断RoutingPathData内是否存在新的路由不存在则插入
+      let flag = true
+      const list =[...store.state.routingPathData]
+      for (let i = 0; i < list.length; i++) {
+        if (list[i].path == paramsData.path) {
+          flag = false
+          break
+        }
+      }
+      if (flag) {
+        list.push(paramsData)
+      }
+      return list
     }
 
     //点击tab的回调事件
