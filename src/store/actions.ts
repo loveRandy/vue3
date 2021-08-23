@@ -14,6 +14,7 @@ export default {
       const allRouterList = menu.filter(
         (item: { hidden: any }) => !item.hidden
       )
+      //设置一下当前的menuList
       const currentMenu = setSingleItem(allRouterList, [])
       commit(CHANGEROUTE, currentMenu)
       return data

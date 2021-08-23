@@ -6,8 +6,7 @@
       <a-col :xs="24" :sm="24" :md="12" :lg="10" :xl="6">
         <div class="login-container-form">
           <header>
-            <img src="@/assets/images/logo.png" />
-            <h1>vue3-admin</h1>
+            <h1>VUE3-后台管理系统</h1>
           </header>
           <a-form :model="form" @finishFailed="handleSubmit">
             <a-form-item>
@@ -89,12 +88,12 @@ export default defineComponent({
 <style lang='less' scoped>
 .login-container {
   height: 100vh;
-  background: url('~@/assets/images/login/login_bg.png');
+  background: url('~@/assets/images/login/login_bg1.jpg');
   background-size: cover;
   &-form {
     width: calc(100% - 40px);
     height: 380px;
-    padding: 4vh;
+    padding: 8vh;
     margin-top: calc((100vh - 380px) / 2);
     margin-right: 20px;
     margin-left: 20px;

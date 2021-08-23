@@ -14,15 +14,14 @@ const service = axios.create({
         message.error('请求出错')
         break
       case 401:
-        message.warning({
-          message: '授权失败，请重新登录'
-        })
-        break
+        message.warning('授权失败，请重新登录')
+        localStorage.removeItem('token')
+        
         // store.commit('LOGIN_OUT')
-        // setTimeout(() => {
-        //   window.location.reload()
-        // }, 1000)
-        // return
+        setTimeout(() => {
+          window.location.reload()
+        }, 1000)
+        break
       case 403:
         message.warning({
           message: '拒绝访问'
@@ -77,6 +76,9 @@ service.interceptors.response.use(
       case 1:
         return res
       case 401:
+        // message.warning({
+        //   message: '授权失败，请重新登录'
+        // })
         message.error(res.message)
         return Promise.reject('error')
       default:
@@ -87,7 +89,7 @@ service.interceptors.response.use(
   (error: { message: any }) => {
     const ele: any = document.getElementById('ajaxLoading')
     ele.style.display = 'none'
-    message.error(error.message)
+    console.log(error.message)
     return Promise.reject(error)
   }
 )
