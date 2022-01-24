@@ -5,6 +5,7 @@
       type="editable-card"
       v-model:activeKey="activeKey"
       @tabClick="tabClick"
+       @edit="onEdit"
     >
       <a-tab-pane
         v-for="item in routingPathData"
@@ -47,6 +48,21 @@ export default defineComponent({
       }
     }
 
+    //点击close按钮
+    const onEdit = (targetKey) => {
+      const l = [...store.state.routingPathData]
+      if(l.length <= 1){return}
+      const i= l.findIndex(item=>item.path === targetKey)
+      const index = i === 0 ? 1 :i
+
+      const list =l.filter(item=>{
+        return item.path !== targetKey
+      })
+        store.commit(ADDROUTINGPATHDATA, list)
+        const path = list[index - 1 ].path
+        router.push({ path: path })
+    }
+
     const getNewList = (paramsData) => {
         // 判断RoutingPathData内是否存在新的路由不存在则插入
       let flag = true
@@ -84,6 +100,7 @@ export default defineComponent({
       routingPathData,
       activeKey,
       tabClick,
+      onEdit
     }
   },
 })
