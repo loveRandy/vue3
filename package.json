@@ -1,7 +1,8 @@
 {
-  "name": "vue3-demo",
+  "name": "vue3-admin",
   "version": "0.1.0",
   "private": true,
+  "authors": "543245444@qq.com",
   "scripts": {
     "serve": "vue-cli-service serve",
     "serve:randy": "cross-env API_TYPE=randy vue-cli-service serve",
